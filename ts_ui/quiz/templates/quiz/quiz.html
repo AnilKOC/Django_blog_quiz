@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <ul>
+    {% for quiz in quizs %}
+        <li><a href="#">{{ quiz.quiz_text}}</a></li>
+        <ul>
+        {% for question in questions %}
+            {% if question.quiz_id == quiz.id %}
+            <li><a href="#">{{ question.question_text}}</a></li>
+            <ul>
+                {% for choice in choices %}
+                    {% if choice.question_id == question.id %}
+                        <li><a href="#">{{ choice.choice_text}}</a></li>
+                        <input type="radio" id="{{choice.choice_text}}" name="choice{{question.id}}" value="{{ choice.choice_text }}">
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endfor %}
+    </ul>
+ <button type="submit" >POST</button>
+</form>
+{% endblock content %}
+
